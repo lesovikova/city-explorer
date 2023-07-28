@@ -8,7 +8,7 @@ export default function Weather({data}) {
         if(data) {
             return (
                 <div className='weather'>
-                  {data.map( (item, index) => <WeatherDay key={index} item={item} />)}
+                  {/* {data.map( (item, index) => <WeatherDay key={index} item={item} />)} */}
                 </div>
                 )
         }
