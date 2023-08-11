@@ -1,8 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import './App.css';
 import axios from "axios";
 import Weather from './components/weather/Weather'
 import Header from "./components/header/Header";
+import Search from "./components/search/Search";
+import CurrentWeather from "./components/currentweather/CurrentWeather";
+import WeatherHistory from "./components/weatherHistory/WeatherHistory";
+
 
 function App() {
     const [cityName, setCityName] = useState("");
@@ -15,13 +19,13 @@ function App() {
       try {
       e.preventDefault();
       e.target.input.value = "";
-      const API = `http://localhost:8080/city?q=${cityName}`
+      const API = `https://weather-server-xte4.onrender.com/city?q=${cityName}`
       const res = await axios.get(API);
-      console.log(res);
       setCity(res.data[0]);
       displayMap(res.data[0]);
       const lonLat = getLonLat(res.data[0]);
-      getWeather(lonLat);
+      getCurrentWeather(lonLat);
+      getPastWeather();
       }
       catch (error) {
         console.log(error);
@@ -37,18 +41,33 @@ function App() {
       return [lon, lat];
     }
 
+    useEffect(() => {getCurrentWeather();}, []);
 
     const [weather, setWeather] = useState([]);
-    async function getWeather(data){
+    async function getCurrentWeather(data){
         try {
-          const API = `http://localhost:8080/currentweather?lon=${data[0]}&lat=${data[1]}`
+          const API = `https://weather-server-xte4.onrender.com/currentweather?lon=${data[0]}&lat=${data[1]}`
           const res = await axios.get(API);
-          console.log(res.data);
-          setWeather(res.data)
+          setWeather(res.data.data)
         }
         catch(err) {
           console.log(err);
         }
+    }
+
+    useEffect(() => {getPastWeather();}, []);
+    const [pastWeather, setPastWeather] = useState([]);
+
+    async function getPastWeather(){
+      try {
+        const API = `https://weather-server-xte4.onrender.com/getPastweather`
+        const res = await axios.get(API);
+        setPastWeather(res.data);
+        console.log(res.data);
+      }
+      catch(err) {
+        console.log(err);
+      }
     }
 
 
@@ -65,12 +84,16 @@ function App() {
   return (
     <div className="App, wrapper">
       <Header />
-      <form onSubmit={getCity}>
+      <Search getSearchWord={getSearchWord} getCity={getCity}/>
+      {/* <form onSubmit={getCity}>
         <input onChange={getSearchWord} type='text' placeholder='enter a city name' name='input' />   
         <button>Explore!</button>
-      </form>
+      </form> */}
       <p>You requested: {cityName}, the location is {city.display_name}, its longitude is {city.lon}, latitude - {city.lat}</p>
       {map && <img src={map} alt="map"/>}
+      {weather.length>0 && <CurrentWeather weather={weather}/>}
+      <h2>This is the latest weather for Norwich</h2>
+      <WeatherHistory norwichWeather={pastWeather}/>
       {/* {weather && city && cityName && <Weather data={weather}/>} */}
     </div>
   );

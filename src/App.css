@@ -3,6 +3,7 @@
   line-height: 1.5;
   letter-spacing: 0.04px;
   color: #003143;
+  box-sizing: border-box;
 }
 
 .App {
@@ -18,4 +19,8 @@ img {
 .wrapper {
   max-width: 900px;
   margin: 0 auto;
+}
+
+h2 {
+  text-align: center;
 }

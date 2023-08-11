@@ -1,0 +1,26 @@
+.form {
+    text-align: center;
+    margin-bottom: 30px;
+}
+.form button {
+    border-radius: 10px;
+    border: none;
+    padding: 10px 20px;
+    background-color: #003143;
+    color: #E6F4F1;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 0 10px;
+}
+
+.form button:hover {
+    cursor: pointer;
+    background-color: #003143bf;
+}
+
+.form__searchfield {
+    padding: 5px 10px;
+    margin: 0 auto 20px;
+    min-width: 300px;
+    border-radius: 10px;
+}

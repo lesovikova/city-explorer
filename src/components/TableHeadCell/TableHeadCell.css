@@ -1,0 +1,11 @@
+.table-head__cell {
+    width: 100%;
+    min-width: 100px;
+    text-align: center;
+    border: 1px solid #333;
+}
+
+.table-head__cell-text {
+    font-size: 1rem;
+    font-weight: bold;
+}
